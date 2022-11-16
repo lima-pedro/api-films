@@ -13,7 +13,7 @@ module.exports = {
 
       if (!total) {
         return response
-          .status(200)
+          .status(204)
           .json({ message: "There are no movies in the database" });
       }
 
@@ -25,8 +25,8 @@ module.exports = {
 
       if (page > pages) {
         return response
-          .status(400)
-          .json({ message: `Max page is ${pages}, ${page} were sent` });
+          .status(422)
+          .json({ message: `Maximum pages greater than total` });
       }
 
       const movies = await MoviesModel.findAll({
@@ -79,7 +79,7 @@ module.exports = {
           });
         }
       }
-      return response.status(200).json({ message: "Populate successfully" });
+      return response.status(201).json({ message: "Populate successfully" });
     } catch (error) {
       return response
         .status(400)

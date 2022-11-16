@@ -26,3 +26,6 @@ Para executar o server:
 `yarn dev` 
 ou 
 `npm run dev`
+
+## SWAGGER
+https://app.swaggerhub.com/apis/LIMMAPEDRO_1/api-films/1.0.1

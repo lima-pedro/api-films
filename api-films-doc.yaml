@@ -1,0 +1,112 @@
+openapi: 3.0.3
+info:
+  title: API FILMS
+  description: |-
+    Study application created to populate a database and list paged saved data
+  contact:
+    name: Pedro Lima
+    email: limma.pedro@gmail.com
+  version: 1.0.1
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:3033
+paths:
+  /movies/populate:
+    get:
+      tags:
+        - populate
+      summary: Populate movies
+      description: Populates the movies table, using data from an external API
+      operationId: populateMovies
+      responses:
+        '201':
+          description: Populate successfully
+        '400':
+          description: Error populate movies
+  /movies:
+    get:
+      tags:
+        - movies
+      summary: Get all movies
+      description: List movie data, with or without pagination
+      operationId: listMovies
+      parameters:
+        - name: limit
+          in: query
+          description: Number of records per page
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number expected to load
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movies'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movies'
+        '204':
+          description: There are no movies in the database
+        '422':
+          description: Maximum pages greater than total
+        '400':
+          description: Error fetching movies
+components:
+  schemas:
+    MoviesItem: 
+      type: object
+      properties:
+        id: 
+          type: string
+          example: '03ac4d1e-e060-4fd9-929a-23ef4e1e3182'
+        title:
+          type: string
+          example: 'Princess Mononoke'
+        original_title:
+          type: string
+          example: '思い出のマーニー'
+        description:
+          type: string
+          example: 'Ashitaka, a prince of the disappearing Ainu tribe, is cursed by a demonized boar god and must journey to the west to find a cure. Along the way, he encounters San, a young human woman fighting to protect the forest, and Lady Eboshi, who is trying to destroy it. Ashitaka must find a way to bring balance to this conflict.'
+        release_date:
+          type: string
+          example: '1997'
+        rt_score:
+          type: string
+          example: '92'
+    Movies:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 157
+        perPage:
+          type: number
+          example: 10
+        currentPage:
+          type: number
+          example: 1
+        pages:
+          type: number
+          example: 16
+        movies:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoviesItem'
+      xml:
+        name: address
+    
